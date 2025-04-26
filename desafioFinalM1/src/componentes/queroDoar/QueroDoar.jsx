@@ -15,7 +15,7 @@ export default function QueroDoar(){
     }
 
     const capturaCategoria = (e) =>{
-        setCategoria(e.target.v??alue)
+        setCategoria(e.target.value)
     }
 
     const capturaAutor = (e) =>{
@@ -27,6 +27,7 @@ export default function QueroDoar(){
     }
 
     const envioDados = async() =>{
+        e.preventDeFault();
 
         const dadosParaEnviar = {
             titulo,
@@ -34,13 +35,14 @@ export default function QueroDoar(){
             autor,
             image_url
         }
-        await axios.post("https://apilivros-dv7v.onrender.com",dadosParaEnviar)
+        await axios.post("https://apilivros-dv7v.onrender.com/doar",dadosParaEnviar)
+        alert ("obrigado, seu livro foi cadastrado com sucesso!")
     }
 
     return(
         <section className={s.queroDoarSection}>
             <p>Por favor, preencha o formulário com suas informações e as informações do Livro</p>
-            <form onSubmit={(e)=>e.preventDefault()}>
+            <form onSubmit={envioDados}>
                 <div>
                     <img src={iconeLivro} alt="Imagem com icone de livro com borda azul" />
                     <h2>Informações do Livro</h2>
@@ -49,7 +51,7 @@ export default function QueroDoar(){
                 <input type="text" placeholder='Categoria' onChange={capturaCategoria} required /> 
                 <input type="text" placeholder='Autor' onChange={capturaAutor} required />
                 <input type="url" placeholder='Link da Imagem' onChange={capturaImg} required />
-                <input type="submit" value="Doar" className={s.buttonDoar} onClick={envioDados}/>
+                <button type="submit" className={s.buttonDoar}>Doar</button>
             </form>
         </section>
     )
